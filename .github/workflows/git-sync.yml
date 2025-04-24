@@ -1,0 +1,22 @@
+name: Git Sync
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */3 * * *'
+  push:
+    branches:
+      - main
+jobs:
+  gitee-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Gitee Sync
+        uses: Yikun/hub-mirror-action@master
+        with:
+          src: github/shaonianche
+          dst: gitee/shaonianche
+          dst_key: ${{ secrets.GIT_PRIVATE_KEY }}
+          dst_token: ${{ secrets.GITEE_TOKEN }}
+          force_update: true
+          static_list: dotfile, running-data-sync, shaonianche
