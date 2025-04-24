@@ -3,7 +3,7 @@ name: Git Sync
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 */3 * * *'
+    - cron: '0 0 * * *'
   push:
     branches:
       - main
@@ -19,4 +19,15 @@ jobs:
           dst_key: ${{ secrets.GIT_PRIVATE_KEY }}
           dst_token: ${{ secrets.GITEE_TOKEN }}
           force_update: true
-          static_list: dotfile, running-data-sync, shaonianche
+          static_list: dotfiles, running-data-sync, shaonianche
+
+      - name: Gitlab Sync
+        uses: Yikun/hub-mirror-action@master
+        with:
+          src: github/shaonianche
+          dst: gitlab/shaonianche
+          dst_key: ${{ secrets.GIT_PRIVATE_KEY }}
+          dst_token: ${{ secrets.GITLAB_TOKEN }}
+          force_update: true
+          static_list: dotfiles, running-data-sync, shaonianche
+
